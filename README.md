@@ -1,7 +1,7 @@
 # ObjectExplorer
 Android sample application for Unit 2 in Thinkful Android curriculum
 
-AndroidFizzBuzz
+
 ===============
 
 This is the source code for the Thinkful Android Object Explorer App for Unit 2. 

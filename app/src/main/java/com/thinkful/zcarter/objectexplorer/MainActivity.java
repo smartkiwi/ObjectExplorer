@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.view.View;
 import org.w3c.dom.Text;
 
+import java.util.Observable;
+import java.util.Observer;
+
 class EmulatorScreen {
     // static fields
     static TextView textView;
@@ -23,7 +26,7 @@ class EmulatorScreen {
     }
 }
 
-abstract class Ball {
+abstract class Ball extends Observable {
     public abstract void roll();
 }
 
@@ -32,6 +35,16 @@ class Football extends Ball {
     @Override
     public void roll() {
         EmulatorScreen.log("This football is rolling");
+        this.setChanged();
+        this.notifyObservers();
+    }
+}
+
+class Umpire implements Observer {
+
+    public void update(Observable observable, Object data) {
+        EmulatorScreen.log("The ball has been changed.");
+
     }
 }
 
@@ -66,6 +79,8 @@ public class MainActivity extends Activity {
         // and calling methods on those objects
         // example using the Football class:
         Football football = new Football();
+        Umpire umpire = new Umpire();
+        football.addObserver(umpire);
         football.roll();
     }
 

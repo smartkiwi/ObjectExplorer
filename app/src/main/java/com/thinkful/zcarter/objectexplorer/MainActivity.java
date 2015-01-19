@@ -1,48 +1,72 @@
 package com.thinkful.zcarter.objectexplorer;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;
+import org.w3c.dom.Text;
+
+class EmulatorScreen {
+    // static fields
+    static TextView textView;
+    static String text = new String();
+
+    public static void outputToScreen() {
+        textView.setText(text);
+    }
+
+    public static void log(String textToLog) {
+        text += textToLog + "\n";
+    }
+}
+
+abstract class Ball {
+    public abstract void roll();
+}
+
+class Football extends Ball {
+
+    @Override
+    public void roll() {
+        EmulatorScreen.log("This football is rolling");
+    }
+}
+
+//-------------------------------------------------------------------
+// This space is for students to define classes in Thinkful Unit 2
 
 
-public class MainActivity extends ActionBarActivity {
+//-------------------------------------------------------------------
 
-    TextView textView;
-    String outputText;
+
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.textView = (TextView) findViewById(R.id.textView);
-        this.outputText = new String("");
+        EmulatorScreen.textView = (TextView) findViewById(R.id.textView);
         Button startButton = (Button)findViewById(R.id.startButton);
-
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.this.displayOutput();
+                EmulatorScreen.outputToScreen();
             }
         });
         this.userSetup();
-        this.displayOutput();
+        EmulatorScreen.outputToScreen();
     }
 
     public void userSetup() {
-        this.log("hello");
-    }
-
-    public void displayOutput() {
-        this.textView.setText(this.outputText);
-    }
-
-    public void log(String textToLog) {
-        this.outputText += textToLog + "\n";
+        // Students experiment with their classes here by instantiating their objects
+        // and calling methods on those objects
+        // example using the Football class:
+        Football football = new Football();
+        football.roll();
     }
 
     @Override

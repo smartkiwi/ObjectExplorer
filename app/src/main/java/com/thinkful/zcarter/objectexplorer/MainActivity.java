@@ -7,12 +7,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;
-import org.w3c.dom.Text;
 
 import java.util.Observable;
 import java.util.Observer;
 
-class EmulatorScreen {
+// This class handles output of log to the emulator screen
+class Screen {
     // static fields
     static TextView textView;
     static String text = new String();
@@ -34,7 +34,7 @@ class Football extends Ball {
 
     @Override
     public void roll() {
-        EmulatorScreen.log("This football is rolling");
+        Screen.log("This football is rolling");
         this.setChanged();
         this.notifyObservers();
     }
@@ -43,7 +43,7 @@ class Football extends Ball {
 class Umpire implements Observer {
 
     public void update(Observable observable, Object data) {
-        EmulatorScreen.log("The ball has been changed.");
+        Screen.log("The ball has been changed.");
 
     }
 }
@@ -62,16 +62,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EmulatorScreen.textView = (TextView) findViewById(R.id.textView);
+        Screen.textView = (TextView) findViewById(R.id.textView);
         Button startButton = (Button)findViewById(R.id.startButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EmulatorScreen.outputToScreen();
+                Screen.outputToScreen();
             }
         });
         this.userSetup();
-        EmulatorScreen.outputToScreen();
+        Screen.outputToScreen();
     }
 
     public void userSetup() {

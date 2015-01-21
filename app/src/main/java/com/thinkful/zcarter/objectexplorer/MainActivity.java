@@ -7,9 +7,11 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;
+import android.util.Log;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.StringTokenizer;
 
 // This class handles output of log to the emulator screen
 class Screen {
@@ -32,6 +34,9 @@ abstract class Ball extends Observable {
 
 class Football extends Ball {
 
+    // Note the @Override is a compiler directive.
+    // It is not required, but is a best practice to use
+    // for your own benefit
     @Override
     public void roll() {
         Screen.log("This football is rolling");
@@ -42,9 +47,56 @@ class Football extends Ball {
 
 class Umpire implements Observer {
 
+    @Override
     public void update(Observable observable, Object data) {
-        Screen.log("The ball has been changed.");
+        String[] parts = observable.getClass().toString().split("\\.");
+        String ballClass = parts[parts.length-1];
+        Screen.log("The " + ballClass + " has been changed.");
 
+    }
+}
+
+class Referee implements Observer {
+
+    @Override
+    public void update(Observable observable, Object data) {
+        String ballClass = data.getClass().toString();
+        Screen.log("The ball " + ballClass + " has been changed.");
+    }
+}
+
+abstract class Baseball extends Ball {
+    public abstract void pitch();
+}
+
+class Softball extends Baseball {
+    @Override
+    public void pitch(){
+        Log.d("Softball", "A soft ball is pitched underhand");
+    }
+
+    @Override
+    public void roll() {
+        Screen.log("This soft ball is rolling");
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+}
+
+class Hardball extends Baseball {
+    @Override
+    public void pitch() {
+        Log.d("Hardball", "A hard ball is pitched overhand");
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    @Override
+    public void roll() {
+        Screen.log("This hard ball is rolling");
+        this.setChanged();
+        this.notifyObservers();
     }
 }
 
@@ -82,6 +134,12 @@ public class MainActivity extends Activity {
         Umpire umpire = new Umpire();
         football.addObserver(umpire);
         football.roll();
+
+        //Hardball hardball = new Hardball();
+        //Referee referee = new Referee();
+        //hardball.addObserver(referee);
+        //hardball.pitch();
+        //hardball.roll();
     }
 
     @Override

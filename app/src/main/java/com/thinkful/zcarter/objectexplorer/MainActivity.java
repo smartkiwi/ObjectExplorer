@@ -11,7 +11,6 @@ import android.util.Log;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.StringTokenizer;
 
 // This class handles output of log to the emulator screen
 class Screen {

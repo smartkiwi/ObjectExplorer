@@ -24,6 +24,7 @@ class Screen {
 
     public static void log(String textToLog) {
         text += textToLog + "\n";
+        textView.setText(text);
     }
 }
 
@@ -44,7 +45,7 @@ class Football extends Ball {
     }
 }
 
-class Umpire implements Observer {
+class Referee implements Observer {
 
     @Override
     public void update(Observable observable, Object data) {
@@ -52,15 +53,6 @@ class Umpire implements Observer {
         String ballClass = parts[parts.length-1];
         Screen.log("The " + ballClass + " has been changed.");
 
-    }
-}
-
-class Referee implements Observer {
-
-    @Override
-    public void update(Observable observable, Object data) {
-        String ballClass = data.getClass().toString();
-        Screen.log("The ball " + ballClass + " has been changed.");
     }
 }
 
@@ -80,13 +72,13 @@ class Softball extends Baseball {
         this.setChanged();
         this.notifyObservers();
     }
-
 }
 
 class Hardball extends Baseball {
     @Override
     public void pitch() {
         Log.d("Hardball", "A hard ball is pitched overhand");
+        Screen.log("A hard ball is pitched overhand");
         this.setChanged();
         this.notifyObservers();
     }
@@ -101,7 +93,8 @@ class Hardball extends Baseball {
 
 //-------------------------------------------------------------------
 // This space is for students to define classes in Thinkful Unit 2
-
+// Alternatively, create classes in a new file in the same package,
+// and they will be available here
 
 //-------------------------------------------------------------------
 
@@ -113,32 +106,25 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Screen.textView = (TextView) findViewById(R.id.textView);
-        Button startButton = (Button)findViewById(R.id.startButton);
+        Screen.textView = (TextView) this.findViewById(R.id.textView);
+        Button startButton = (Button)this.findViewById(R.id.startButton);
+
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Screen.outputToScreen();
             }
         });
-        this.userSetup();
-        Screen.outputToScreen();
+        this.playBall();
     }
 
-    public void userSetup() {
+    public void playBall() {
         // Students experiment with their classes here by instantiating their objects
         // and calling methods on those objects
         // example using the Football class:
-        Football football = new Football();
-        Umpire umpire = new Umpire();
-        football.addObserver(umpire);
-        football.roll();
+        //Football football = new Football();
+        Referee referee = new Referee();
 
-        //Hardball hardball = new Hardball();
-        //Referee referee = new Referee();
-        //hardball.addObserver(referee);
-        //hardball.pitch();
-        //hardball.roll();
     }
 
     @Override

@@ -63,7 +63,7 @@ abstract class Baseball extends Ball {
 class Softball extends Baseball {
     @Override
     public void pitch(){
-        Log.d("Softball", "A soft ball is pitched underhand");
+        Log.i("Softball", "A soft ball is pitched underhand");
     }
 
     @Override
@@ -75,9 +75,13 @@ class Softball extends Baseball {
 }
 
 class Hardball extends Baseball {
+
+    public Hardball() {
+
+    }
+
     @Override
     public void pitch() {
-        Log.d("Hardball", "A hard ball is pitched overhand");
         Screen.log("A hard ball is pitched overhand");
         this.setChanged();
         this.notifyObservers();
@@ -123,7 +127,6 @@ public class MainActivity extends Activity {
         // and calling methods on those objects
         // example using the Football class:
         //Football football = new Football();
-        Referee referee = new Referee();
 
     }
 

@@ -57,6 +57,7 @@ class Referee implements Observer {
 }
 
 abstract class Baseball extends Ball {
+    public int speed;
     public abstract void pitch();
 }
 
@@ -76,13 +77,13 @@ class Softball extends Baseball {
 
 class Hardball extends Baseball {
 
-    public Hardball() {
-
+    public Hardball(int speed) {
+        this.speed = speed;
     }
 
     @Override
     public void pitch() {
-        Screen.log("A hard ball is pitched overhand");
+        Screen.log("A hard ball is pitched overhand" + this.speed);
         this.setChanged();
         this.notifyObservers();
     }
@@ -102,6 +103,20 @@ class Hardball extends Baseball {
 
 //-------------------------------------------------------------------
 
+class BouncyBall {
+
+    public void bounce() {
+        Screen.log("The BancyBall object bounces.");
+    }
+}
+
+class SuperBall extends BouncyBall {
+
+    @Override
+    public void bounce() {
+        Screen.log("The SuperBall object bounces super high.");
+    }
+}
 
 public class MainActivity extends Activity {
 
@@ -127,6 +142,11 @@ public class MainActivity extends Activity {
         // and calling methods on those objects
         // example using the Football class:
         //Football football = new Football();
+        Hardball hardball = new Hardball(10);
+        hardball.pitch();
+
+        SuperBall superBall = new SuperBall();
+        superBall.bounce();
 
     }
 
@@ -152,3 +172,4 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 }
+
